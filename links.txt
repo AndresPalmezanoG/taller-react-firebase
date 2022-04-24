@@ -2,3 +2,4 @@ AWS
 https://main.dfsuvnhsy2und.amplifyapp.com/
 
 Netlify
+https://splendid-unicorn-c20c78.netlify.app/
