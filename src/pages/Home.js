@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { db } from "../firebase";
-import { Button, Card, Grid, Container, Image } from 'semantic-ui-react';
+import { Button, Card, Grid, Container, Image, Modal } from 'semantic-ui-react';
 import { useNavigate, userNavigate } from "react-router-dom";
 import { collection, onSnapshot } from 'firebase/firestore';
+import ModalComp from '../commponents/ModalComp';
 
 const Home = () => {
     const [users, setUsers] = useState([]);
+    const [user, setUser] = useState({});
+    const [open, setOpen] = useState(false);
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
@@ -27,10 +30,14 @@ const Home = () => {
         };
     }, []);
 
+const handleModal = (item) => {
+    setOpen(true);
+    setUser(item)
+};
+
     return (
         <Container>
-            <Card.Group>
-                <Grid stackable>
+                <Grid columns={3} stackable>
                     {users && users.map((item) => (
                         <Grid.Column key={item.id}>
                             <Card.Content>
@@ -57,15 +64,22 @@ const Home = () => {
                                         Update
                                     </Button>
                                     <Button color="grey"
-                                        onClick={() => navigate(`/update/${item.id}`)}>
+                                        onClick={() => handleModal(item)}>
                                         View
                                     </Button>
+                                    {open && (
+                                        <ModalComp
+                                        open={open}
+                                        setOpen={setOpen}
+                                        handleDelete={() => console.log("delete")}
+                                        {...user}
+                                        />
+                                    )}
                                 </div>
                             </Card.Content>
                         </Grid.Column>
                     ))}
                 </Grid>
-            </Card.Group>
         </Container>
     )
 }
