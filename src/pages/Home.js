@@ -30,9 +30,9 @@ const Home = () => {
     return (
         <Container>
             <Card.Group>
-                <Grid colums={3} stackable>
+                <Grid stackable>
                     {users && users.map((item) => (
-                        <Grid.Column>
+                        <Grid.Column key={item.id}>
                             <Card.Content>
                                 <Image
                                     src={item.img}
@@ -47,7 +47,7 @@ const Home = () => {
                                     {item.name}
                                 </Card.Header>
                                 <Card.Description>
-                                    {item.info}
+                                    {item.mail}
                                 </Card.Description>
                             </Card.Content>
                             <Card.Content extra>
@@ -56,7 +56,7 @@ const Home = () => {
                                         onClick={() => navigate(`/update/${item.id}`)}>
                                         Update
                                     </Button>
-                                    <Button color="gray"
+                                    <Button color="grey"
                                         onClick={() => navigate(`/update/${item.id}`)}>
                                         View
                                     </Button>

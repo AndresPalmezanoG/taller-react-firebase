@@ -3,7 +3,7 @@ import { Button, Form, Grid, Loader } from "semantic-ui-react";
 import { storage, db } from "../firebase";
 import { useParams, useNavigate } from "react-router-dom"
 import { getDownloadURL, uploadBytesResumable, ref } from 'firebase/storage';
-import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
+import { doc, addDoc, getDoc, collection, serverTimestamp, updateDoc } from 'firebase/firestore';
 
 const initialState = {
     name: "",
@@ -20,13 +20,26 @@ const AddEditUser = () => {
     const [isSubmit, setIsSubmit] = useState(false);
     const { name, mail, info, contact } = data;
     const navigate = useNavigate();
-    
+    const { id } = useParams();
+
+    useEffect(() => {
+        id && getSingleUser();
+    }, [id])
+
+    const getSingleUser = async () => {
+        const docRef = doc(db, "users", id);
+        const snapshot = await getDoc(docRef);
+        if (snapshot.exists()) {
+            setData({ ...snapshot.data() });
+        }
+    }
+
     useEffect(() => {
         const uploadFile = () => {
             const name = new Date().getTime() + file.name;
             const storageRef = ref(storage, file.name);
             const uploadTask = uploadBytesResumable(storageRef, file);
-            
+
             uploadTask.on("state_changed", (snapshot) => {
                 const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
                 setPreogress(progress);
@@ -77,11 +90,28 @@ const AddEditUser = () => {
         let errors = validate();
         if (Object.keys(errors).length) return setErrors(errors);
         setIsSubmit(true);
-            await addDoc(collection(db, "users"), {
-                ...data,
-                timestamp: serverTimestamp()
-            })
-            navigate("/");
+        if (!id) {
+            try {
+                await addDoc(collection(db, "users"), {
+                    ...data,
+                    timestamp: serverTimestamp(),
+                });
+            } catch (error) {
+                console.log(error);
+            }
+        } else {
+            try {
+                await updateDoc(doc(db, "users", id), {
+                    ...data,
+                    timestamp: serverTimestamp(),
+                });
+            } catch (error) {
+                console.log(error);
+            }
+
+        }
+
+        navigate("/");
     };
 
     return (
@@ -92,7 +122,7 @@ const AddEditUser = () => {
                         <div>
                             {isSubmit ? <Loader inline="centered" size="huge" /> : (
                                 <>
-                                    <h2>Add User</h2>
+                                    <h2>{id ? "Update User" : "Add User"}</h2>
                                     <Form onSubmit={handleSubmit}>
                                         <Form.Input
                                             label="Name"
