@@ -48,7 +48,7 @@ const Home = () => {
 
     return (
         <Container>
-            <Grid columns={3} stackable>
+            <Grid columns={5} stackable>
                 {users && users.map((item) => (
                     <Grid.Column key={item.id}>
                         <Card.Content>

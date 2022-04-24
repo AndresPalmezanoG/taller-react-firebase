@@ -10,6 +10,8 @@ const ModalComp = ({
     mail,
     contact,
     id,
+    address,
+    country,
     handleDelete
 }) => {
     return (
@@ -22,9 +24,11 @@ const ModalComp = ({
                 <Image size="medium" src={img} warpped />
                 <Modal.Description>
                     <Header>{name}</Header>
-                    <p>{mail}</p>
                     <p>{info}</p>
+                    <p>{mail}</p>
                     <p>{contact}</p>
+                    <p>{address}</p>
+                    <p>{country}</p>
                 </Modal.Description>
             </Modal.Content>
             <Modal.Actions>

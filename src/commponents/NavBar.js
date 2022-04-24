@@ -13,7 +13,7 @@ const NavBar = () => {
                       <Image size="tiny" src={logo} alt="logo" />
                   </Link>
               </Menu.Item>
-              <Menu.Item>
+              <Menu.Item position='right'>
                   <h2>React-Firebase Data Base Proyect</h2>
               </Menu.Item>
               <Menu.Item position='right'>
