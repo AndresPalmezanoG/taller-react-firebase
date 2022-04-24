@@ -131,7 +131,7 @@ const AddEditUser = () => {
                                             name="name"
                                             onChange={handleChange}
                                             value={name}
-                                            autoFocus
+                                            
                                         />
                                         <Form.Input
                                             label="Mail"
