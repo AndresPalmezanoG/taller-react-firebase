@@ -10,7 +10,7 @@ const NavBar = () => {
           <Container>
               <Menu.Item name='home'>
                   <Link to="/">
-                      <Image size="mini" src={logo} alt="logo" />
+                      <Image size="tiny" src={logo} alt="logo" />
                   </Link>
               </Menu.Item>
               <Menu.Item>
