@@ -36,9 +36,7 @@ const ModalComp = ({
                     content="Delete"
                     labelPosition="right"
                     icon="checkmark"
-                    onClick={() => handleDelete(id)}>
-                    Delete
-                </Button>
+                    onClick={() => handleDelete(id)} />
             </Modal.Actions>
         </Modal>
     )

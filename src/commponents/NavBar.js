@@ -14,9 +14,9 @@ const NavBar = () => {
                   </Link>
               </Menu.Item>
               <Menu.Item>
-                  <h2>React Firebase Proyect</h2>
+                  <h2>React-Firebase Data Base Proyect</h2>
               </Menu.Item>
-              <Menu.Item>
+              <Menu.Item position='right'>
                 <Button size='mini' primary onClick={() => navigate("/add")}>
                     Add User
                     </Button>

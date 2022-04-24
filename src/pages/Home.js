@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { db } from "../firebase";
 import { Button, Card, Grid, Container, Image, Modal } from 'semantic-ui-react';
 import { useNavigate, userNavigate } from "react-router-dom";
-import { collection, onSnapshot } from 'firebase/firestore';
+import { collection, deleteDoc, doc, onSnapshot } from 'firebase/firestore';
 import ModalComp from '../commponents/ModalComp';
 
 const Home = () => {
@@ -30,56 +30,67 @@ const Home = () => {
         };
     }, []);
 
-const handleModal = (item) => {
-    setOpen(true);
-    setUser(item)
-};
+    const handleModal = (item) => {
+        setOpen(true);
+        setUser(item)
+    };
+
+    const handleDelete = async (id) => {
+        if (window.confirm("Are you sure you want to delete the user"))
+            try {
+                setOpen(false);
+                await deleteDoc(doc(db, "users", id));
+                setUsers(users.filter((user) => user.id !== id));
+            } catch (err) {
+                console.log(err);
+            }
+    }
 
     return (
         <Container>
-                <Grid columns={3} stackable>
-                    {users && users.map((item) => (
-                        <Grid.Column key={item.id}>
-                            <Card.Content>
-                                <Image
-                                    src={item.img}
-                                    size="medium"
-                                    style={{
-                                        height: "150px",
-                                        width: "150px",
-                                        borderRadius: "50%",
-                                    }}
-                                />
-                                <Card.Header sryle={{ marginTop: "10px" }}>
-                                    {item.name}
-                                </Card.Header>
-                                <Card.Description>
-                                    {item.mail}
-                                </Card.Description>
-                            </Card.Content>
-                            <Card.Content extra>
-                                <div>
-                                    <Button color="green"
-                                        onClick={() => navigate(`/update/${item.id}`)}>
-                                        Update
-                                    </Button>
-                                    <Button color="grey"
-                                        onClick={() => handleModal(item)}>
-                                        View
-                                    </Button>
-                                    {open && (
-                                        <ModalComp
+            <Grid columns={3} stackable>
+                {users && users.map((item) => (
+                    <Grid.Column key={item.id}>
+                        <Card.Content>
+                            <Image
+                                src={item.img}
+                                size="medium"
+                                style={{
+                                    height: "150px",
+                                    width: "150px",
+                                    borderRadius: "50%",
+                                }}
+                            />
+                            <Card.Header sryle={{ marginTop: "10px" }}>
+                                {item.name}
+                            </Card.Header>
+                            <Card.Description>
+                                {item.mail}
+                            </Card.Description>
+                        </Card.Content>
+                        <Card.Content extra>
+                            <div>
+                                <Button color="green"
+                                    onClick={() => navigate(`/update/${item.id}`)}>
+                                    Update
+                                </Button>
+                                <Button color="grey"
+                                    onClick={() => handleModal(item)}>
+                                    View
+                                </Button>
+                                {open && (
+                                    <ModalComp
                                         open={open}
                                         setOpen={setOpen}
-                                        handleDelete={() => console.log("delete")}
+                                        handleDelete={handleDelete}
                                         {...user}
-                                        />
-                                    )}
-                                </div>
-                            </Card.Content>
-                        </Grid.Column>
-                    ))}
-                </Grid>
+                                    />
+                                )}
+                            </div>
+                        </Card.Content>
+                    </Grid.Column>
+                ))}
+            </Grid>
         </Container>
     )
 }
