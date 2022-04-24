@@ -9,7 +9,9 @@ const initialState = {
     name: "",
     mail: "",
     info: "",
-    contact: ""
+    contact: "",
+    address: "",
+    country: ""
 }
 
 const AddEditUser = () => {
@@ -18,7 +20,7 @@ const AddEditUser = () => {
     const [progress, setPreogress] = useState(null);
     const [errors, setErrors] = useState({});
     const [isSubmit, setIsSubmit] = useState(false);
-    const { name, mail, info, contact } = data;
+    const { name, mail, info, contact, address, country } = data;
     const navigate = useNavigate();
     const { id } = useParams();
 
@@ -83,6 +85,12 @@ const AddEditUser = () => {
         if (!contact) {
             errors.contact = "Contact is required"
         }
+        if (!address) {
+            errors.address = "Address is required"
+        }
+        if (!country) {
+            errors.country = "Country is required"
+        }
         return errors;
     };
     const handleSubmit = async (e) => {
@@ -131,7 +139,7 @@ const AddEditUser = () => {
                                             name="name"
                                             onChange={handleChange}
                                             value={name}
-                                            
+
                                         />
                                         <Form.Input
                                             label="Mail"
@@ -156,6 +164,22 @@ const AddEditUser = () => {
                                             name="contact"
                                             onChange={handleChange}
                                             value={contact}
+                                        />
+                                        <Form.Input
+                                            label="Address"
+                                            error={errors.address ? { content: errors.address } : null}
+                                            placeHolder="Enter Address"
+                                            name="address"
+                                            onChange={handleChange}
+                                            value={address}
+                                        />
+                                        <Form.Input
+                                            label="Country"
+                                            error={errors.country ? { content: errors.country } : null}
+                                            placeHolder="Enter Country"
+                                            name="country"
+                                            onChange={handleChange}
+                                            value={country}
                                         />
                                         <Form.Input
                                             label="Upload"

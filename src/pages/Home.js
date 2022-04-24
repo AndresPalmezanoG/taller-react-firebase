@@ -65,7 +65,7 @@ const Home = () => {
                                 {item.name}
                             </Card.Header>
                             <Card.Description>
-                                {item.mail}
+                                {item.info}
                             </Card.Description>
                         </Card.Content>
                         <Card.Content extra>
